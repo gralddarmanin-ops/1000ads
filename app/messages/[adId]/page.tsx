@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 'use client'
 import { useEffect, useState, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
@@ -29,7 +31,6 @@ export default function ChatPage() {
     if (!authData.user) { router.push('/login'); return }
     setUser(authData.user)
 
-    // Fetch ad
     const { data: adData } = await supabase
       .from('ads')
       .select('*, profiles(id, full_name)')
@@ -37,22 +38,18 @@ export default function ChatPage() {
       .single()
     setAd(adData)
 
-    // Set other person
     const other = adData?.profiles?.id === authData.user.id
       ? null : adData?.profiles?.id
     setOtherId(other || '')
 
-    // Fetch messages
     await fetchMessages(authData.user.id)
 
-    // Mark messages as read
     await supabase
       .from('messages')
       .update({ is_read: true })
       .eq('ad_id', adId)
       .eq('receiver_id', authData.user.id)
 
-    // Subscribe to new messages
     supabase
       .channel('messages')
       .on('postgres_changes', {
@@ -105,7 +102,6 @@ export default function ChatPage() {
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col">
       <Navbar />
 
-      {/* Chat Header */}
       <div className="bg-black border-b border-[#2a2a2a] px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center gap-3">
           <button onClick={() => router.push('/messages')}
@@ -127,7 +123,6 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <div className="max-w-3xl mx-auto space-y-3">
           {messages.length === 0 ? (
@@ -160,7 +155,6 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Message Input */}
       <div className="bg-black border-t border-[#2a2a2a] px-4 py-3">
         <div className="max-w-3xl mx-auto flex gap-2">
           <textarea
