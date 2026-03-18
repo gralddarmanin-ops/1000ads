@@ -1,6 +1,5 @@
-export const runtime = 'edge';
 'use client';
-
+export const runtime = 'edge';
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useParams } from 'next/navigation'
@@ -12,11 +11,9 @@ export default function CategoryPage() {
   const [ads, setAds] = useState<any[]>([])
   const [category, setCategory] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     fetchCategory()
   }, [slug])
-
   const fetchCategory = async () => {
     const { data: cat } = await supabase
       .from('categories')
@@ -24,7 +21,6 @@ export default function CategoryPage() {
       .eq('slug', slug)
       .single()
     setCategory(cat)
-
     if (cat) {
       const { data } = await supabase
         .from('ads')
@@ -36,13 +32,10 @@ export default function CategoryPage() {
     }
     setLoading(false)
   }
-
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Navbar />
-
       <div className="max-w-6xl mx-auto px-4 py-8">
-
         <div className="mb-8">
           <Link href="/" className="text-sm text-gray-600 hover:text-[#cc0000] mb-3 inline-block">
             ← All categories
@@ -54,7 +47,6 @@ export default function CategoryPage() {
             {loading ? '...' : `${ads.length} active ads`}
           </p>
         </div>
-
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
@@ -95,9 +87,7 @@ export default function CategoryPage() {
             ))}
           </div>
         )}
-
       </div>
-
       <footer className="border-t border-[#2a2a2a] mt-10 py-8 text-center text-sm text-gray-600">
         © 2025 1000ads · All rights reserved
       </footer>
