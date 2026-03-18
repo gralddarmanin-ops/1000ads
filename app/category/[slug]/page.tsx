@@ -1,6 +1,6 @@
 export const runtime = 'edge';
+'use client';
 
-'use client'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useParams } from 'next/navigation'
@@ -43,7 +43,6 @@ export default function CategoryPage() {
 
       <div className="max-w-6xl mx-auto px-4 py-8">
 
-        {/* Header */}
         <div className="mb-8">
           <Link href="/" className="text-sm text-gray-600 hover:text-[#cc0000] mb-3 inline-block">
             ← All categories
@@ -56,7 +55,6 @@ export default function CategoryPage() {
           </p>
         </div>
 
-        {/* Ads Grid */}
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
